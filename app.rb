@@ -33,21 +33,21 @@ get("/random/results") do
   min=params.fetch("minimum").to_f
   max=params.fetch("maximum").to_f
   returnNum=rand(min..max)
-  "#{returnNum}"
+  "Random Number \n #{returnNum}"
 end
 
 get("/payment/new") do
   erb(:paymentTemp)
 end
 get("/payment/results") do
-  apr=params.fetch("APR").to_f
-  apr=apr/100
+  @apr=params.fetch("APR").to_f
+  apr=@apr/100
   apr=apr/12
-  years=params.fetch("years").to_i
-  months=years*12
-  pv=params.fetch("PV").to_f
-  numerator=apr*pv
+  @years=params.fetch("years").to_i
+  months=@years*12
+  @pv=params.fetch("PV").to_f
+  numerator=apr*@pv
   denom= 1-(1+apr)**(-1*months)
-  outcome=(numerator/denom).to_fs(:currency)
-  "#{outcome}"
+  @outcome=(numerator/denom).to_fs(:currency)
+  erb(:paymentOut)
 end
